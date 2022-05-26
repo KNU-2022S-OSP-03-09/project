@@ -1,2 +1,4 @@
 #!/bin/sh
-venv/bin/python3
+export PYTHONPATH="./py:./web:$PYTHONPATH"
+export FLASK_APP="serve"
+venv/bin/python3 -m flask run

@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block main %}
+	{% for b in buildings %}
+		<a href="/rooms/{{b}}">{{b}}</a>
+	{% endfor %}
+{% endblock %}
