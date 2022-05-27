@@ -1,3 +1,5 @@
 raw
+tools
 venv
 */__pycache__
+*.log
