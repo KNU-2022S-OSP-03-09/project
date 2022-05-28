@@ -1,5 +1,9 @@
 #!/bin/sh
+
+if [ -f "venv/bin/pip3" ]; then PIP_COMMAND="venv/bin/pip3"; else PIP_COMMAND="venv/bin/pip"; fi
+if [ -x "$(command -v python3)" ]; then PYTHON_COMMAND="python3"; else PYTHON_COMMAND="python"; fi
+
 mkdir raw
 mkdir tools
-python3 -m venv venv
-venv/bin/pip3 install -r requirements.txt
+$PYTHON_COMMAND -m venv venv
+$PIP_COMMAND install -r requirements.txt
