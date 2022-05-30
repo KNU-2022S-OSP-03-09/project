@@ -3,6 +3,7 @@ import enum
 class Building:
 	def __init__(self, name):
 		"""
+		rooms: dict str->Room
 		:param name: str
 		"""
 		self.name = name
@@ -18,12 +19,13 @@ class Room:
 		self.uses = list()
 
 class Use:
+	BLOCKING_SIZE = 99999999
 	def __init__(self, size, startdate, enddate, times, name=None):
 		"""
 		강의 따위
 		:param size: int, 크기(사람 수)
-		:param startdate:
-		:param enddate:
+		:param startdate: date
+		:param enddate: date
 		:param times: [Time]
 		:param name: str
 		"""
@@ -32,28 +34,22 @@ class Use:
 		self.enddate = enddate
 		self.times = times
 		self.name = name
-
-class Recurrence(enum.Enum):
-	MONDAY = 0
-	TUESDAY = 1
-	WEDNESDAY = 2
-	THURSDAY = 3
-	FRIDAY = 4
-	SATURDAY = 5
-	SUNDAY = 6
-	EVERYDAY = 100
+	def __repr__(self):
+		return f"Use {self.name}, {self.size} {self.startdate} - {self.enddate} {self.times}"
 
 class Time:
-	def __init__(self, start, length, recurrence):
+	def __init__(self, start, end, recurrence):
 		"""
 		하루 안의 이어진 시간
-		:param start: int, 0시부터 센 분
-		:param length: int, 분
-		:param recurrence: Recurrence
+		:param start: time
+		:param end: time
+		:param recurrence: str '월' '화' '수' '목' '금' '토' '일' '날' 가운데 하나
 		"""
 		self.start = start
-		self.length = length
+		self.end = end
 		self.recurrence = recurrence
+	def __repr__(self):
+		return f"Time {self.start} {self.end} {self.recurrence}"
 
 class User:
 	def __init__(self, name, num, uses):

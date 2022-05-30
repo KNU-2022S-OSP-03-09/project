@@ -1,3 +1,4 @@
+import datetime
 import json
 import re
 
@@ -47,11 +48,12 @@ def process(data):
 	lctrmInfo 강의실
 	rmnmCd 호실번호
 	lssnsTimeInfo 강의시간
-	lssnsRealTimeInfo 강의시간(실제시간)
+	lssnsRealTimeInfo 강의시간(실제시간) 보기: "화 10:30 ~ 12:00,목 09:00 ~ 10:30"
 	rmrk 비고(상주캠퍼스, 원격수업)
 	sbjetNm 교과목명
 	crseNo 강좌번호"""
 	buildings = dict()
+	codes = dict()
 	for l in data:
 		remark = l["rmrk"]
 		if remark is not None and ("원격" in remark or "상주캠퍼스" in remark):
@@ -63,19 +65,46 @@ def process(data):
 			continue
 		if re.fullmatch("제[0-9]+호관", bldg) is not None:
 			continue
+
+		# 겹치는 것들 거름
+		coursecode = l["crseNo"]
+		if coursecode in codes:
+			continue
+		else:
+			codes[coursecode] = True
+
 		bldg = re.sub(r"\(.*\)", "", bldg)
 		bldg = _split_building(bldg)
 		for b in bldg:
 			if b not in buildings:
 				buildings[b] = Building(b)
 
-		#use = Use(99999, ?, ?, times, l["crseNo"])
+		times = []
+		for t in l["lssnsRealTimeInfo"].split(','):
+			timerec = t[0]
+			timestrings = [s.strip() for s in t[1:].split('~')]
+			#timestart = to_minutes(timestrings[0])
+			#timelength = to_minutes(timestrings[1]) - timestart
+			#if len(times) >= 1 and timerec == times[-1].recurrence and timestart == times[-1].start + times[-1].length:
+			#	times[-1].length += timelength
+			timestart = datetime.time.fromisoformat(timestrings[0])
+			timeend = datetime.time.fromisoformat(timestrings[1])
+			if len(times) >= 1 and timerec == times[-1].recurrence and timestart == times[-1].end:
+				times[-1].end = timeend
+			else:
+				times.append(Time(timestart, timeend, timerec))
+		# https://knu.ac.kr/wbbs/wbbs/user/yearSchedule/index.action 에서 날짜 받으면 좋을듯
+		use = Use(Use.BLOCKING_SIZE, datetime.date(2022, 3, 2), datetime.date(2022, 6, 21), times, coursecode)
 
 		room = _split_room(l["rmnmCd"])
 		if len(bldg) >= 2:
 			for i, b in enumerate(bldg):
-				buildings[b].rooms[room[i]] = Room(room[i])
+				if room[i] not in buildings[b].rooms:
+					buildings[b].rooms[room[i]] = Room(room[i])
+				buildings[b].rooms[room[i]].uses.append(use)
 		else:
 			for r in room:
-				buildings[bldg[0]].rooms[r] = Room(r)
+				if r not in buildings[bldg[0]].rooms:
+					buildings[bldg[0]].rooms[r] = Room(r)
+				buildings[bldg[0]].rooms[r].uses.append(use)
 	return buildings
