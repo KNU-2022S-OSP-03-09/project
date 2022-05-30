@@ -17,6 +17,3 @@ def use(building, room):
 @app.route("/time/<time>")
 def time(time):
     return flask.render_template("time.html",time=time)
-
-if __name__=='__main__':
-    app.run()
