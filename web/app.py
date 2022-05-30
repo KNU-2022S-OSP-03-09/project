@@ -12,8 +12,4 @@ def rooms(building):
 
 @app.route("/use/<building>/<room>")
 def use(building, room):
-	return flask.render_template("use.html", building=building, room=room,time=["09:00~09:30"])
-
-@app.route("/time/<time>")
-def time(time):
-    return flask.render_template("time.html",time=time)
+	return flask.render_template("use.html", building=building, room=room, timeblocks=["09:00~09:30", "09:00~09:30", "09:00~09:30", "09:00~09:30"])
