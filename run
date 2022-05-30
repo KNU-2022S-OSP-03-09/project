@@ -1,4 +1,7 @@
 #!/bin/sh
+
+if [ -f "venv/bin/python3" ]; then PYTHON_COMMAND="venv/bin/python3"; else PYTHON_COMMAND="venv/bin/python"; fi
+
 export PYTHONPATH="./py:./web:$PYTHONPATH"
 export FLASK_APP="serve"
-venv/bin/python3 -m flask run
+$PYTHON_COMMAND -m flask run
