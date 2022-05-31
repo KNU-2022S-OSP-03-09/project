@@ -2,7 +2,7 @@
 {% block main %}
 	<h1>{{building}}</h1>
 	{% for f in floors %}
-		<div class="infoblock floorblock">
+		<div class="blockgroup">
 			{{f[0]}}층
 			{% for r in f[1] %}
 				<a href="/use/{{building}}/{{r}}">{{r}}</a>
