@@ -1,7 +1,17 @@
 {% extends "base.html" %}
 {% block main %}
 	<h1>{{building}}</h1>
-	{% for r in rooms %}
-		<a href="/use/{{building}}/{{r}}">{{r}}</a>
+	{% for f in floors %}
+		<div class="blockgroup">
+			<div class="title">{{f[0]}}층</div>
+			<br>
+			{% for r in f[1] %}
+			<div class="room" onclick="location.href='/use/{{building}}/{{r}}'">
+				{{r}}
+
+			</div>
+			{% endfor %}
+		</div>
+		<br>
 	{% endfor %}
 {% endblock %}
