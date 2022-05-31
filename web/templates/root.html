@@ -1,67 +1,6 @@
 {% extends "base.html" %}
 {% block main %}
-	<center><div style="background:ivory;
-	box-shadow: 1px 1px 4px gray;
-	padding:10px;
-	display:inline-block;
-	font-size:20px;
-	">자리조회 : {{building}}</div>
-	<br>
-	<br>
-	<div style="background:ivory;
-		box-shadow: 1px 1px 4px gray;
-		padding:10px;
-		display:inline-block;
-		font-size:20px;
-		width:640px;
-		text-align: left;
-		margin-bottom:5px;
-		">
-		<div style="display:inline-block;
-		width:80px;
-		">3층</div>
-		<div style="display:inline-block;
-		width:80px;
-		"><a href="/use/{{building}}/{{r}}">301호</a></div>
-	</div>
-	<div style="background:ivory;
-		box-shadow: 1px 1px 4px gray;
-		padding:10px;
-		display:inline-block;
-		font-size:20px;
-		width:640px;
-		text-align: left;
-		margin-bottom:5px;
-		">
-		<div style="display:inline-block;
-		width:80px;
-		">2층</div>
-		<div style="display:inline-block;
-		width:80px;
-		"><a href="/use/{{building}}/{{r}}">201호</a></div>
-	</div>
-	<div style="background:ivory;
-		box-shadow: 1px 1px 4px gray;
-		padding:10px;
-		display:inline-block;
-		font-size:20px;
-		width:640px;
-		text-align: left;
-		margin-bottom:5px;
-		">
-		<div style="display:inline-block;
-		width:80px;
-		">1층</div>
-		<div style="display:inline-block;
-		width:80px;
-		"><a href="/use/{{building}}/{{r}}">101호</a></div>
-	</div>
-
-
-</center>
-	{% for r in rooms %}
-		<a href="/use/{{building}}/{{r}}">{{r}}</a>
+	{% for b in buildings %}
+		<a href="/rooms/{{b}}">{{b}}</a>
 	{% endfor %}
-
 {% endblock %}
-

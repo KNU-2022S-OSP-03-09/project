@@ -5,3 +5,15 @@ body {
 h1 {
 	font-size: 1.5em;
 }
+.infoblock {
+	background: ivory;
+	box-shadow: 1px 1px 4px gray;
+	padding: 10px;
+	display: inline-block;
+	font-size: 20px;
+}
+.floorblock {
+	width: 640px;
+	text-align: left;
+	margin-bottom: 5px;
+}

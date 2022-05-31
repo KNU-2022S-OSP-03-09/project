@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 {% block main %}
 	<h1>{{building}}</h1>
-	{% for r in rooms %}
-		<a href="/use/{{building}}/{{r}}">{{r}}</a>
+	{% for f in floors %}
+		<div class="infoblock floorblock">
+			{{f[0]}}층
+			{% for r in f[1] %}
+				<a href="/use/{{building}}/{{r}}">{{r}}</a>
+			{% endfor %}
+		</div>
+		<br>
 	{% endfor %}
 {% endblock %}
