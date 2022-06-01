@@ -10,7 +10,7 @@ app = flask.Flask(__name__)
 
 @app.route("/")
 def root():
-	return flask.render_template("root.html", buildings=["IT대학4호관", "IT융복합관"])
+	return flask.render_template("root.html", buildings=sorted(list(bldginfo)))
 
 @app.route("/rooms/<building>")
 def rooms(building):
