@@ -1,16 +1,22 @@
 {% extends "base.html" %} {% block main %}
 <h1>{{building}} {{room}}</h1>
 <div class="timechoice">
-	<div class="all_choose">
-		<input type="checkbox" id="all" name="전체 선택" />
-		<label for="all"><span>전체 선택</span></label>
-	</div>
-	<ul>
-		{% for t in timeblocks %}
-			<li>
-				<label><input type="checkbox" name="{{t}}"/>{{t}}</label>
-			</li>
-		{% endfor %}
-	</ul>
+  <div class="all_choose">
+    <input type="checkbox" id="all" name="전체 선택" />
+    <label for="all"><span>전체 선택</span></label>
+  </div>
+  <ul>
+    {% for t in timeblocks %}
+    <li>
+      <label><input type="checkbox" name="{{t}}" />{{t}}</label>
+    </li>
+
+    <br />
+
+    {% endfor %}
+    <form action="/success" , method="POST">
+      <button type="submit" , value="button">예약하기</button>
+    </form>
+  </ul>
 </div>
 {% endblock %}
