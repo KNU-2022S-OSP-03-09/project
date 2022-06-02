@@ -1,7 +1,5 @@
 import flask
 import json
-from flask import redirect,url_for
-import requests
 
 import processraw
 
@@ -28,14 +26,12 @@ def rooms(building):
 			floors[i[0]].append(i)
 	floors = sorted(floors.items(), key=lambda x: '/' if x[0] == 'B' else x[0], reverse=True)
 	floors = [(f, sorted(r)) for f, r in floors]
-	print(floors)
-	print(building)
 	return flask.render_template("rooms.html", building=building, floors=floors)
 
 @app.route("/use/<building>/<room>")
 def use(building, room):
-   	return flask.render_template("use.html", building=building, room=room, timeblocks=["09:00~09:30", "09:30~10:00", "10:00~10:30", "10:30~11:00"])
+	return flask.render_template("use.html", building=building, room=room, timeblocks=["09:00~09:30", "09:30~10:00", "10:00~10:30", "10:30~11:00"])
 
-@app.route("/success",methods=["POST"])
+@app.route("/success", methods=["POST"])
 def success():
-    return flask.render_template("success.html")
+	return flask.render_template("success.html", times=flask.request.form)

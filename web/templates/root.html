@@ -1,8 +1,5 @@
 {% extends "base.html" %} {% block main %}
-
-<h1>건물 이름</h1>
 {% for b in buildings %}
-<div class="build">
-  <a href="/rooms/{{b}}">{{b}}</a>
-</div>
-{% endfor %} {% endblock %}
+	<a href="/rooms/{{b}}">{{b}}</a>
+{% endfor %}
+{% endblock %}

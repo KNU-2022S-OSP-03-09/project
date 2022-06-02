@@ -1,37 +1,35 @@
 body {
-  background-color: white;
-  font-size: 2em;
+	background-color: rgb(220, 220, 220);
+	font-size: 2em;
 }
 h1 {
-  font-size: 1.5em;
+	font-size: 1.5em;
 }
+
 .blockgroup {
-  padding: 10px;
-  margin-bottom: 15px;
-  display: inline-block;
-  width: 80vw;
-  text-align: left;
+	padding: 10px;
+	margin-bottom: 15px;
+	display: inline-block;
+	width: 80vw;
+	text-align: left;
 }
 .blockgroup .title {
 }
+
 .blockgroup .room {
-  cursor: pointer;
-  background-color: rgba(253, 140, 180, 0.4);
-  box-shadow: 1px 1px 4px gray;
-  display: inline-block;
-  text-align: center;
-  transition: 0.5s;
-  padding: 10px;
-  color: #111111;
-  width: 100px;
-  vertical-align: middle;
-  margin-top: 5px;
+	cursor: pointer;
+	background-color: rgba(253, 140, 180, 0.4);
+	box-shadow: 1px 1px 4px gray;
+	display: inline-block;
+	text-align: center;
+	transition: 0.5s;
+	padding: 10px;
+	color: #111111;
+	width: 100px;
+	vertical-align: middle;
+	margin-top: 5px;
 }
 .blockgroup .room:hover {
-  padding: 15px;
-  color: rgb(172, 46, 84);
-}
-
-.build {
-  flex-direction: row;
+	padding: 15px;
+	color: rgb(172, 46, 84);
 }
