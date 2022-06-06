@@ -25,7 +25,7 @@ class Use:
 		강의 따위
 		:param size: int, 크기(사람 수)
 		:param startdate: date
-		:param enddate: date
+		:param enddate: date, 닫힘
 		:param times: [Time]
 		:param name: str
 		"""
@@ -50,14 +50,3 @@ class Time:
 		self.recurrence = recurrence
 	def __repr__(self):
 		return f"Time {self.start} {self.end} {self.recurrence}"
-
-class User:
-	def __init__(self, name, num, uses):
-		"""
-		:param name: str
-		:param num: int
-		:param uses: [Use]
-		"""
-		self.name = name
-		self.num = num
-		self.uses = uses

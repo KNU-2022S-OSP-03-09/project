@@ -1,0 +1,5 @@
+#!/bin/sh
+
+pg_ctl start -D "./db" -o "-c unix_socket_directories=''"
+./run
+pg_ctl stop -D "./db"

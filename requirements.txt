@@ -1,6 +1,7 @@
 wheel
 apscheduler
 flask
+psycopg2
 selenium
 selenium-wire
 sqlalchemy
