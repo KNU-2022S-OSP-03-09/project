@@ -3,7 +3,7 @@ import json
 
 import processraw
 
-with open("raw/lectures.json") as f:
+with open("raw/lectures.json", encoding="utf-8") as f:
 	bldginfo = processraw.process(json.load(f))
 
 app = flask.Flask(__name__)
