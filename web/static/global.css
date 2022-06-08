@@ -33,3 +33,7 @@ h1 {
 	padding: 15px;
 	color: rgb(172, 46, 84);
 }
+
+.unavailable {
+	background-color: gray;
+}
