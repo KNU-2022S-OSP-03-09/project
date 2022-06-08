@@ -1,5 +1,7 @@
 #!/bin/sh
 
+export EDBN_DBMS_CHOICE="1"
+
 pg_ctl start -D "./db" -o "-c unix_socket_directories=''"
 ./run
 pg_ctl stop -D "./db"

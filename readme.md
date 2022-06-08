@@ -6,7 +6,18 @@ cd project
 ./setup
 ```
 
-raw 폴더에 lectures.json 넣거나 tools 폴더에 geckodriver, tools/firefox 폴더에 firefox 넣고
+raw 폴더에 lectures.json 넣거나 tools 폴더에 geckodriver, tools/firefox 폴더에 firefox 넣어 아래처럼 만들고
+
+```
+.
+|-- raw
+|   `-- lectures.json
+`-- tools
+    |-- geckodriver
+    `-- firefox
+        |-- firefox
+        `-- 파이어폭스 파일들..
+```
 
 ### SQLite
 
@@ -15,8 +26,6 @@ raw 폴더에 lectures.json 넣거나 tools 폴더에 geckodriver, tools/firefox
 ```
 
 ### PostgreSQL
-
-py/database.py에서 DBMS를 1로 맞추고
 
 ```
 ./setuppostgres

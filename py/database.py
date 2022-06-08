@@ -1,4 +1,5 @@
 import datetime
+import os
 
 import sqlalchemy
 from sqlalchemy import create_engine, text
@@ -13,7 +14,8 @@ DBP = {
 	"datew": [lambda x: x.isoformat(), lambda x: x],
 	"dater": [datetime.date.fromisoformat, lambda x: x]
 }
-DBMS = 0
+# app.py로 옮겨야할지
+DBMS = int(os.environ.get("EDBN_DBMS_CHOICE", 0))
 
 engine = create_engine(DBP["url"][DBMS])
 
