@@ -1,5 +1,6 @@
 import datetime
 import functools
+import itertools
 import json
 import math
 import sys
@@ -11,6 +12,8 @@ import common
 import crawl
 import database
 import processraw
+
+
 
 BLOCK_SIZE = 30 * 60
 OPEN_SECOND = 9 * 60 * 60
@@ -32,6 +35,8 @@ app = flask.Flask(__name__)
 
 scheduler = apscheduler.schedulers.background.BackgroundScheduler()
 scheduler.start()
+
+
 
 @scheduler.scheduled_job(trigger="cron", hour=0, minute=30)
 def clearuses():
@@ -66,10 +71,18 @@ def use(building, room):
 	except KeyError:
 		return flask.render_template("error.html", error=f"'{building} {room}'(이)라는 방이 없습니다")
 
-	useruses = database.queryuses(bldg, rm, datetime.date.today())
-	blocks = rm.calcblocks(datetime.date.today(), useruses, BLOCK_SIZE, OPEN_SECOND, CLOSE_SECOND)
-	blocks = [(BLOCK_STRINGS[i], "BLOCKED" if b == common.Use.BLOCKING_SIZE else b, calchue(b)) for i, b in enumerate(blocks)]
-	return flask.render_template("use.html", building=building, room=room, timeblocks=blocks)
+	targetdate = datetime.date.today()
+	dateblocks = [None] * 5
+	datenames = [None] * 5
+	for i in range(7):
+		if targetdate.weekday() < 5:
+			useruses = database.queryuses(bldg, rm, targetdate)
+			dateblocks[targetdate.weekday()] = rm.calcblocks(targetdate, useruses, BLOCK_SIZE, OPEN_SECOND, CLOSE_SECOND)
+			datenames[targetdate.weekday()] = targetdate.isoformat()[5:]
+		targetdate += datetime.timedelta(days=1)
+	hues = {p: calchue(p) for p in itertools.chain(*dateblocks)}
+	dateblocks = list(map(list, zip(*dateblocks)))
+	return flask.render_template("use.html", building=building, room=room, dates=datenames, times=BLOCK_STRINGS, blocks=dateblocks, hues=hues)
 
 @app.route("/success", methods=["POST"])
 def success():

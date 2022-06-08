@@ -1,21 +1,27 @@
 {% extends "base.html" %} {% block main %}
 <h1>{{ building }} {{ room }}</h1>
-<div class="all_choose">
-	<input type="checkbox" id="all" name="전체 선택">
-	<label for="all"><span>전체 선택</span></label>
-</div>
 <form action="{{ url_for('success') }}" method="POST">
 	<table>
-		{% for t in timeblocks %}
+		<thead>
 			<tr>
-				<td>{{ t[0] }}<br>↓</td>
-				{% if t[1] == "BLOCKED" %}
-					<td class="unavailable"><label><input type="checkbox" name="{{ loop.index }}" disabled>수업있음</label></td>
-				{% else %}
-					<!--{{ (1 - [t[1] / 40, 1]|min) * 120 }}-->
-					<!--attr number가 아직 안되니 어쩔길없이 style 씀-->
-					<td style="background-color: hsl({{ t[2] }}, 70%, 60%)"><label><input type="checkbox" name="{{ loop.index }}"> {{ t[1] }}사람</label></td>
-				{% endif %}
+				<th scope="col">시간\날짜</th>
+				{% for d in dates %}
+					<th scope="col">{{ d }}</th>
+				{% endfor %}
+			</tr>
+		</thead>
+		{% for r in blocks %}
+			{% set rowloop = loop %}
+			<tr>
+				<th scope="row">{{ times[loop.index0] }}<br>↓</th>
+				{% for b in r %}
+					{% if b == 99999999 %}
+						<td class="unavailable"><label><input type="checkbox" disabled>수업</label></td>
+					{% else %}
+						<!--attr number가 아직 안되니 어쩔길없이 style 씀-->
+						<td style="background-color: hsl({{ hues[b] }}, 70%, 60%);"><label><input type="checkbox" name="{{ rowloop.index0 }}-{{ loop.index0 }}"> {{ b }}사람</label></td>
+					{% endif %}
+				{% endfor %}
 			</tr>
 		{% endfor %}
 	</table>
