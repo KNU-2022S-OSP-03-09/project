@@ -33,7 +33,7 @@ class Room:
 		alluses = self.uses + extrauses
 		weekday = Room.DAYMAP[d.weekday()]
 		blocks = [0] * math.ceil((endsec - startsec) / blocksize)
-		for u in alluses:
+		for u in filter(lambda x: x.startdate <= d and d <= x.enddate, alluses):
 			for t in filter(lambda x: x.recurrence == weekday or x.recurrence == "날", u.times):
 				bstart = clamp((totalsec(t.start) - startsec) // blocksize, 0, len(blocks))
 				bend = clamp(math.ceil((totalsec(t.end) - startsec) / blocksize), 0, len(blocks))
