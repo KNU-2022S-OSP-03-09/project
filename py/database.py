@@ -68,6 +68,10 @@ def insertuser(name, studentnum):
 		conn.execute(command, name=name, studentnum=studentnum)
 
 def queryuses(building, room, startdate):
+	"""
+	:param building: Building
+	:param room: Room
+	"""
 	command = text("SELECT name, size, starttime, endtime FROM uses WHERE building_name = :b and room_name = :r and startdate = :d;")
 	with engine.begin() as conn:
 		result = conn.execute(command, b=building.name, r=room.name, d=DBP["datew"][DBMS](startdate))
