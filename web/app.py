@@ -3,6 +3,7 @@ import functools
 import json
 import math
 
+import apscheduler.schedulers.background
 import flask
 
 import common
@@ -19,6 +20,13 @@ with open("raw/lectures.json", encoding="utf-8") as f:
 	bldginfo = processraw.process(json.load(f))
 
 app = flask.Flask(__name__)
+
+scheduler = apscheduler.schedulers.background.BackgroundScheduler()
+scheduler.start()
+
+@scheduler.scheduled_job(trigger="cron", hour=0, minute=30)
+def clearuses():
+	database.clearuses(datetime.date.today())
 
 @app.route("/")
 def root():

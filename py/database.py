@@ -34,6 +34,7 @@ def create():
 			FOREIGN KEY (building_name, room_name) REFERENCES rooms(building_name, name)
 		);""",
 		"CREATE INDEX uses_brd_index ON uses (building_name, room_name, startdate);"
+		#"CREATE INDEX uses_date_index ON uses (startdate);"
 	]
 	with engine.begin() as conn:
 		for c in commands:
@@ -76,6 +77,11 @@ def queryuses(building, room, startdate):
 	with engine.begin() as conn:
 		result = conn.execute(command, b=building.name, r=room.name, d=DBP["datew"][DBMS](startdate))
 		return [Use(u[1], startdate, startdate, [Time(DBP["timer"][DBMS](u[2]), DBP["timer"][DBMS](u[3]), "날")], u[0]) for u in result]
+
+def clearuses(beforedate):
+	command = text("DELETE FROM uses WHERE startdate < :bd")
+	with engine.begin() as conn:
+		conn.execute(command, bd=DBP["datew"][DBMS](beforedate))
 
 def resetdb():
 	drops = ["DROP TABLE uses;", "DROP TABLE users;", "DROP TABLE rooms;", "DROP TABLE buildings;"]
