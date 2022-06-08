@@ -44,7 +44,8 @@ def clearuses():
 
 @app.route("/")
 def root():
-	return flask.render_template("root.html", buildings=sorted(list(bldginfo)))
+	roompage = "rooms" if flask.request.args.get("noov") == "true" else "roomov"
+	return flask.render_template("root.html", buildings=sorted(list(bldginfo)), roompage=roompage)
 
 @app.route("/rooms/<building>")
 def rooms(building):
@@ -62,6 +63,32 @@ def rooms(building):
 	floors = sorted(floors.items(), key=lambda x: '/' if x[0] == 'B' else x[0], reverse=True)
 	floors = [(f, sorted(r)) for f, r in floors]
 	return flask.render_template("rooms.html", building=building, floors=floors)
+
+@app.route("/roomov/<building>")
+def roomov(building):
+	try:
+		bldg = bldginfo[building]
+	except KeyError:
+		return flask.render_template("error.html", error=f"'{building}'(이)라는 건물이 없습니다")
+
+	floors = dict()
+	for i in bldg.rooms:
+		if i[0] not in floors:
+			floors[i[0]] = [i]
+		else:
+			floors[i[0]].append(i)
+	floors = sorted(floors.items(), key=lambda x: '/' if x[0] == 'B' else x[0], reverse=True)
+	floors = [[f, sorted(r)] for f, r in floors]
+
+	today = datetime.date.today()
+	nowdt = datetime.datetime.now()
+	nowindex = common.blockidxfloor(nowdt.hour * 3600 + nowdt.minute * 60, OPEN_SECOND, BLOCK_SIZE, len(BLOCK_STRINGS))
+	for i in range(len(floors)):
+		for j in range(len(floors[i][1])):
+			# 시렁할까?
+			blocks = bldg.rooms[floors[i][1][j]].calcblocks(today, [], BLOCK_SIZE, OPEN_SECOND, CLOSE_SECOND)
+			floors[i][1][j] = (floors[i][1][j], [calchue(b) if b < common.Use.BLOCKING_SIZE else b for b in blocks[nowindex:nowindex + 6]])
+	return flask.render_template("roomov.html", building=building, floors=floors)
 
 @app.route("/use/<building>/<room>")
 def use(building, room):

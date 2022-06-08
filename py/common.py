@@ -9,6 +9,8 @@ class Building:
 		"""
 		self.name = name
 		self.rooms = dict()
+	def __repr__(self):
+		return f"Building {self.name}"
 
 class Room:
 	# 부드러우라고 list 아닌 dict 씀.
@@ -22,6 +24,8 @@ class Room:
 		"""
 		self.name = name
 		self.uses = list()
+	def __repr__(self):
+		return f"Room {self.name}"
 	def calcblocks(self, d, extrauses, blocksize, startsec, endsec):
 		"""
 		:param d: date
@@ -35,7 +39,7 @@ class Room:
 		blocks = [0] * math.ceil((endsec - startsec) / blocksize)
 		for u in filter(lambda x: x.startdate <= d and d <= x.enddate, alluses):
 			for t in filter(lambda x: x.recurrence == weekday or x.recurrence == "날", u.times):
-				bstart = clamp((totalsec(t.start) - startsec) // blocksize, 0, len(blocks))
+				bstart = blockidxfloor(totalsec(t.start), startsec, blocksize, len(blocks))
 				bend = clamp(math.ceil((totalsec(t.end) - startsec) / blocksize), 0, len(blocks))
 				blocks[bstart:bend] = [x + u.size for x in blocks[bstart:bend]]
 		return blocks
@@ -78,3 +82,6 @@ def totalsec(d):
 
 def clamp(val, minv, maxv):
 	return max(minv, min(val, maxv))
+
+def blockidxfloor(cursec, startsec, blocksize, numblocks):
+	return clamp((cursec - startsec) // blocksize, 0, numblocks)

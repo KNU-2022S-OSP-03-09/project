@@ -1,16 +1,15 @@
-{% extends "base.html" %}
-{% block main %}
-	<h1>{{building}}</h1>
-	<table>
-		{% for f in floors %}
-			<tr>
-				<td>{{ f[0] }}층</td>
-				<td class="blockgroup">
-					{% for r in f[1] %}
-						<a class="room" href="/use/{{building}}/{{r}}">{{r}}</a>
-					{% endfor %}
-				</td>
-			</tr>
-		{% endfor %}
-	</table>
+{% extends "base.html" %} {% block main %}
+<h1>{{ building }}</h1>
+<table>
+	{% for f in floors %}
+		<tr>
+			<td>{{ f[0] }}층</td>
+			<td class="blockgroup">
+				{% for r in f[1] %}
+					<a class="room" href="/use/{{ building }}/{{ r }}">{{ r }}</a>
+				{% endfor %}
+			</td>
+		</tr>
+	{% endfor %}
+</table>
 {% endblock %}
