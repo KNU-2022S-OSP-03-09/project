@@ -1,30 +1,39 @@
 {% extends "base.html" %} {% block main %}
 <h1>{{ building }} {{ room }}</h1>
 <form action="{{ url_for('success') }}" method="POST">
-	<table>
-		<thead>
-			<tr>
-				<th scope="col">시간\날짜</th>
-				{% for d in dates %}
-					<th scope="col">{{ d }}</th>
-				{% endfor %}
-			</tr>
-		</thead>
-		{% for r in blocks %}
-			{% set rowloop = loop %}
-			<tr>
-				<th scope="row">{{ times[loop.index0] }}<br>↓</th>
-				{% for b in r %}
-					{% if b == 99999999 %}
-						<td class="unavailable"><label><input type="checkbox" disabled>수업</label></td>
-					{% else %}
-						<!--attr number가 아직 안되니 어쩔길없이 style 씀-->
-						<td style="background-color: hsl({{ hues[b] }}, 70%, 60%);"><label><input type="checkbox" name="{{ rowloop.index0 }}-{{ loop.index0 }}"> {{ b }}사람</label></td>
-					{% endif %}
-				{% endfor %}
-			</tr>
-		{% endfor %}
-	</table>
-	<button type="submit">예약하기</button>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">시간\날짜</th>
+        {% for d in dates %}
+        <th scope="col">{{ d }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    {% for r in blocks %} {% set rowloop = loop %}
+    <tr>
+      <th scope="row">{{ times[loop.index0] }}<br />↓</th>
+      {% for b in r %} {% if b == 99999999 %}
+      <td class="unavailable">
+        <label><input type="checkbox" disabled />수업</label>
+      </td>
+      {% else %}
+      <!--attr number가 아직 안되니 어쩔길없이 style 씀-->
+      <td style="background-color: hsl({{ hues[b] }}, 70%, 60%);">
+        <label
+          ><input
+            type="checkbox"
+            name="{{ rowloop.index0 }}-{{ loop.index0 }}"
+          />
+          {{ b }}사람</label
+        >
+      </td>
+      {% endif %} {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+  학번:<input type="text" name="studentnum" /><br />
+  이름:<input type="text" name="studentname" /><br />
+  <button type="submit">예약하기</button>
 </form>
 {% endblock %}
