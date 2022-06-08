@@ -2,11 +2,13 @@ import datetime
 import functools
 import json
 import math
+import sys
 
 import apscheduler.schedulers.background
 import flask
 
 import common
+import crawl
 import database
 import processraw
 
@@ -16,8 +18,15 @@ CLOSE_SECOND = 18 * 60 * 60
 BLOCK_STRINGS = [f"{(OPEN_SECOND + BLOCK_SIZE * i) // 3600:02}:{(OPEN_SECOND + BLOCK_SIZE * i) % 3600 // 60:02}" for i in range(math.ceil((CLOSE_SECOND - OPEN_SECOND) / BLOCK_SIZE))]
 ROOM_COLOR_CAP = 40
 
-with open("raw/lectures.json", encoding="utf-8") as f:
-	bldginfo = processraw.process(json.load(f))
+try:
+	with open("raw/lectures.json", encoding="utf-8") as f:
+		bldginfo = processraw.process(json.load(f))
+except FileNotFoundError:
+	crawl_yesno_answer = input("강의 데이터가 없습니다. 긁을까요?(yes-예/no-아니요): ").lower()
+	if crawl_yesno_answer == "yes" or crawl_yesno_answer == "예":
+		bldginfo = processraw.process(crawl.crawl_and_save())
+	else:
+		sys.exit()
 
 app = flask.Flask(__name__)
 
