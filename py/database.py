@@ -9,6 +9,7 @@ from common import Use, Time
 DBP = {
 	"url": ["sqlite+pysqlite:///db/edbn.db", "postgresql+psycopg2://localhost:5432/edbn"],
 	#"idt": ["INTEGER PRIMARY KEY AUTOINCREMENT", "SERIAL PRIMARY KEY"],
+	"inig": ["INSERT OR IGNORE INTO {0} {1} VALUES {2};", "INSERT INTO {0} {1} VALUES {2} ON CONFLICT {3} DO NOTHING;"],
 	"timew": [lambda x: x.isoformat(), lambda x: x],
 	"timer": [datetime.time.fromisoformat, lambda x: x],
 	"datew": [lambda x: x.isoformat(), lambda x: x],
@@ -55,9 +56,13 @@ def populate(buildings):
 			for r in b.rooms.values():
 				conn.execute(rinsert, bn=b.name, name=r.name)
 
-def insertuse(building, room, use, studentnum):
-	"""Time이 하나뿐이고 startdate == enddate인 Use만 들어감."""
+def insertuse(building, room, use, studentnum, username=None):
+	"""
+	Time이 하나뿐이고 startdate == enddate인 Use만 들어감.
+	studentnum이 같은 쓰는이가 없으면 새로 넣음.
+	"""
 	command = text("INSERT INTO uses (name, size, startdate, starttime, endtime, building_name, room_name, usernum) VALUES (:name, :size, :startdate, :starttime, :endtime, :building_name, :room_name, :num);")
+	insertuser(username, studentnum)
 	with engine.begin() as conn:
 		conn.execute(command, name=use.name, size=use.size,
 				startdate=DBP["datew"][DBMS](use.startdate),
@@ -66,7 +71,8 @@ def insertuse(building, room, use, studentnum):
 				building_name=building.name, room_name=room.name, num=studentnum)
 
 def insertuser(name, studentnum):
-	command = text("INSERT INTO users (name, studentnum) VALUES (:name, :studentnum);")
+	"""studentnum이 이미 있는 줄과 겹치면 아무것도 안 함."""
+	command = text(DBP["inig"][DBMS].format("users", "(name, studentnum)", "(:name, :studentnum)", "(studentnum)"))
 	with engine.begin() as conn:
 		conn.execute(command, name=name, studentnum=studentnum)
 
