@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block main %}
 <h1>{{ building }} {{ room }}</h1>
-<form action="{{ url_for('success') }}" method="POST">
+<form action="/fill" method="POST">
 	<table>
 		<thead>
 			<tr>
@@ -21,12 +21,14 @@
 						<td class="unavailable"><label><input type="checkbox" disabled>수업</label></td>
 					{% else %}
 						{# attr number가 아직 안되니 어쩔길없이 style 씀 #}
-						<td style="background-color: hsl({{ hues[b] }}, 70%, 60%);"><label><input type="checkbox" name="{{ rowloop.index0 }}-{{ loop.index0 }}"> {{ b }}사람</label></td>
+						<td style="background-color: hsl({{ hues[b] }}, 70%, 60%);"><label><input type="checkbox" name="{{ loop.index0 }}-{{ rowloop.index0 }}"> {{ b }}사람</label></td>
 					{% endif %}
 				{% endfor %}
 			</tr>
 		{% endfor %}
 	</table>
+	<input type="hidden" name="building" value="{{ building }}">
+	<input type="hidden" name="room" value="{{ room }}">
 	학번: <input type="text" name="studentnum">
 	<br>
 	이름: <input type="text" name="name">

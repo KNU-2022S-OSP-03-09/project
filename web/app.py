@@ -19,6 +19,8 @@ BLOCK_SIZE = 30 * 60
 OPEN_SECOND = 9 * 60 * 60
 CLOSE_SECOND = 18 * 60 * 60
 BLOCK_STRINGS = [f"{(OPEN_SECOND + BLOCK_SIZE * i) // 3600:02}:{(OPEN_SECOND + BLOCK_SIZE * i) % 3600 // 60:02}" for i in range(math.ceil((CLOSE_SECOND - OPEN_SECOND) / BLOCK_SIZE))]
+# datetime.time에 더할 수만 있었어도
+USE_TIME_STRINGS = [f"{(OPEN_SECOND + BLOCK_SIZE * i) // 3600:02}:{(OPEN_SECOND + BLOCK_SIZE * i) % 3600 // 60:02}" for i in range(math.ceil((CLOSE_SECOND - OPEN_SECOND) / BLOCK_SIZE) + 1)]
 ROOM_COLOR_CAP = 40
 
 try:
@@ -113,10 +115,52 @@ def use(building, room):
 	dateblocks = list(map(list, zip(*dateblocks)))
 	return flask.render_template("use.html", building=building, room=room, dates=datenames, times=BLOCK_STRINGS, blocks=dateblocks, hues=hues)
 
-@app.route("/success", methods=["POST"])
-def success():
-	name = flask.request.form["name"]
-	return flask.render_template("success.html", name=name)
+# 굳혀야함(fill, checkerrors)
+@app.route("/fill", methods=["POST"])
+def fill():
+	data = dict(flask.request.form)
+	stnum = data["studentnum"]
+	name = data["name"]
+	building = data["building"]
+	room = data["room"]
+	del data["studentnum"]
+	del data["name"]
+	del data["building"]
+	del data["room"]
+	error = checkerrors(stnum, data)
+	if error is None:
+		blocks = [int(x.split('-')[1]) for x in filter(lambda k: data[k] == "on", data)]
+		start = min(blocks)
+		end = max(blocks) + 1
+		targetday = int(list(data)[0].split('-')[0])
+		today = datetime.date.today()
+		twdy = today.weekday()
+		starttime = datetime.time.fromisoformat(USE_TIME_STRINGS[start])
+		endtime = datetime.time.fromisoformat(USE_TIME_STRINGS[end])
+		usedate = today + datetime.timedelta(days=targetday - twdy if twdy <= targetday else 7 - (twdy - targetday))
+		database.insertuse(bldginfo[building], bldginfo[building].rooms[room], common.Use(1, usedate, usedate, [common.Time(starttime, endtime, '날')]), stnum, name)
+		return flask.render_template("fill.html", name=name)
+	else:
+		return flask.render_template("fill.html", error=error) #, 422
+
+# 수업있을때, 지난 시간일때, 주말일때, 집채/방 없을때도 잘못 돌려줘야함
+def checkerrors(stnum, checkdict):
+	if not stnum.isdigit():
+		return f"학번 '{stnum}'이 수가 아닙니다."
+	checked = list(filter(lambda k: checkdict[k] == "on", checkdict))
+	if len(checked) <= 0:
+		return "시간을 고르세요."
+	# 글일때 늘어놓으면 10, 1이 제대로 안놓임
+	checked = sorted([(int(x), int(y)) for x, y in map(lambda z: z.split('-'), checked)], key=lambda x: x[1])
+	weekday, last = checked[0]
+	for c in checked[1:]:
+		w, t = c[0], c[1]
+		if w != weekday:
+			return "하루 안에서 고르세요."
+		if last + 1 != t:
+			return "이어진 시간을 고르세요."
+		last = t
+	return None
 
 @functools.lru_cache(maxsize=None)
 def calchue(p):
