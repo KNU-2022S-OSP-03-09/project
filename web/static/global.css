@@ -25,10 +25,9 @@ label {
   width: 80vw;
   text-align: left;
 }
-.blockgroup .title {
-}
 
-.blockgroup .room {
+.room,
+.building {
   cursor: pointer;
   background-color: rgba(253, 140, 180, 0.4);
   box-shadow: 1px 1px 4px gray;
@@ -37,13 +36,16 @@ label {
   transition: 0.5s;
   padding: 10px;
   color: #111111;
-  width: 100px;
   vertical-align: middle;
   margin-top: 5px;
 }
-.blockgroup .room:hover {
+.room:hover,
+.building:hover {
   padding: 15px;
   color: rgb(172, 46, 84);
+}
+.room {
+  width: 100px;
 }
 
 .colorbar {
