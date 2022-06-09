@@ -6,6 +6,18 @@ h1 {
 	font-size: 1.5em;
 }
 
+/*https://stackoverflow.com/a/3081445*/
+tr {
+	height: 1px;
+}
+td {
+	height: 100%;
+}
+label {
+	display: table;
+	min-height: 100%;
+}
+
 .blockgroup {
 	padding: 10px;
 	margin-bottom: 15px;
