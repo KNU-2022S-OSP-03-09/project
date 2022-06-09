@@ -1,3 +1,3 @@
 import database
 
-resetdb()
+database.resetdb()
