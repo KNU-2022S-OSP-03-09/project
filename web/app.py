@@ -90,7 +90,7 @@ def roomov(building):
 	for i in range(len(floors)):
 		for j in range(len(floors[i][1])):
 			# 시렁할까?
-			blocks = bldg.rooms[floors[i][1][j]].calcblocks(today, [], BLOCK_SIZE, OPEN_SECOND, CLOSE_SECOND)
+			blocks = bldg.rooms[floors[i][1][j]].calcblocks(today, database.queryuses(bldg, bldg.rooms[floors[i][1][j]], today), BLOCK_SIZE, OPEN_SECOND, CLOSE_SECOND)
 			floors[i][1][j] = (floors[i][1][j], [calchue(b) if b < common.Use.BLOCKING_SIZE else b for b in blocks[nowindex:nowindex + 6]])
 	return flask.render_template("roomov.html", building=building, floors=floors)
 
