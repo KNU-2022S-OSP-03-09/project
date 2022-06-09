@@ -32,6 +32,8 @@ except FileNotFoundError:
 		sys.exit()
 
 app = flask.Flask(__name__)
+app.jinja_env.trim_blocks = True
+app.jinja_env.lstrip_blocks = True
 
 scheduler = apscheduler.schedulers.background.BackgroundScheduler()
 scheduler.start()

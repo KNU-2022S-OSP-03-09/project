@@ -15,12 +15,12 @@
 			<tr>
 				<th scope="row">{{ times[loop.index0] }}<br>↓</th>
 				{% for b in r %}
-					<!--방 여럿을 쓰는 수업은 강의계획서만으로 어느 방을 쓰는지 알 길이 없어서 모든 방에서 모든 시간을 쓰는 걸로 갈망하는데
-					이 때문에 한 방에 겹치는 수업이 생기니 == 하면 안됨-->
+					{# 방 여럿을 쓰는 수업은 강의계획서만으로 어느 방을 쓰는지 알 길이 없어서 모든 방에서 모든 시간을 쓰는 걸로 갈망하는데
+					이 때문에 한 방에 겹치는 수업이 생기니 == 하면 안됨 #}
 					{% if b >= 99999999 %}
 						<td class="unavailable"><label><input type="checkbox" disabled>수업</label></td>
 					{% else %}
-						<!--attr number가 아직 안되니 어쩔길없이 style 씀-->
+						{# attr number가 아직 안되니 어쩔길없이 style 씀 #}
 						<td style="background-color: hsl({{ hues[b] }}, 70%, 60%);"><label><input type="checkbox" name="{{ rowloop.index0 }}-{{ loop.index0 }}"> {{ b }}사람</label></td>
 					{% endif %}
 				{% endfor %}
