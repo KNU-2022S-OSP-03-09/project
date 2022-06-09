@@ -115,8 +115,8 @@ def use(building, room):
 
 @app.route("/success", methods=["POST"])
 def success():
-    studentname=flask.request.form['studentname']
-    return flask.render_template("success.html", times=flask.request.form,studentname=studentname)
+	name = flask.request.form["name"]
+	return flask.render_template("success.html", name=name)
 
 @functools.lru_cache(maxsize=None)
 def calchue(p):
