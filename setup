@@ -10,4 +10,6 @@ mkdir tools
 $PYTHON_COMMAND -m venv venv
 $PIP_COMMAND install -r requirements.txt
 
+if [ -f "venv/bin/python3" ]; then PYTHON_COMMAND="venv/bin/python3"; else PYTHON_COMMAND="venv/bin/python"; fi
+
 $PYTHON_COMMAND py/initdb.py
