@@ -10,4 +10,4 @@ mkdir tools
 $PYTHON_COMMAND -m venv venv
 $PIP_COMMAND install -r requirements.txt
 
-$PYTHON_COMMAND py/initdb
+$PYTHON_COMMAND py/initdb.py

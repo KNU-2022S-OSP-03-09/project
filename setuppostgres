@@ -8,4 +8,4 @@ sudo apt install postgresql
 initdb -D "./db"
 sed -i "/unix_socket_directories =/c\unix_socket_directories = ''" db/postgresql.conf
 createdb -h localhost edbn
-$PYTHON_COMMAND py/initdb
+$PYTHON_COMMAND py/initdb.py
