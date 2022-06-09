@@ -1,6 +1,11 @@
 #!/bin/sh
 
+if [ -x "$(command -v python3)" ]; then PYTHON_COMMAND="python3"; else PYTHON_COMMAND="python"; fi
+
+export EDBN_DBMS_CHOICE="1"
+
 sudo apt install postgresql
 initdb -D "./db"
 sed -i "/unix_socket_directories =/c\unix_socket_directories = ''" db/postgresql.conf
 createdb -h localhost edbn
+$PYTHON_COMMAND py/initdb
