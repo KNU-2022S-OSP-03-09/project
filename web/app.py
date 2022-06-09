@@ -45,7 +45,20 @@ def clearuses():
 @app.route("/")
 def root():
 	roompage = "rooms" if flask.request.args.get("noov") == "true" else "roomov"
-	return flask.render_template("root.html", buildings=sorted(list(bldginfo)), roompage=roompage)
+	depts = {"그밖": []}
+	for i in bldginfo:
+		if i[0] not in depts:
+			depts[i[0]] = [i]
+		else:
+			depts[i[0]].append(i)
+	for k in depts:
+		if len(depts[k]) == 1:
+			depts["그밖"] += depts[k]
+	for o in depts["그밖"]:
+		del depts[o[0]]
+	depts = sorted(depts.items())
+	depts = [(d, sorted(b)) for d, b in depts]
+	return flask.render_template("root.html", depts=depts, roompage=roompage)
 
 @app.route("/rooms/<building>")
 def rooms(building):

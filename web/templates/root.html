@@ -1,5 +1,14 @@
 {% extends "base.html" %} {% block main %}
-{% for b in buildings %}
-	<a href="/{{ roompage }}/{{ b }}">{{ b }}</a>
-{% endfor %}
+<table>
+	{% for d in depts %}
+		<tr>
+			<td>{{ d[0] }}</td>
+			<td class="blockgroup">
+				{% for b in d[1] %}
+					<a class="building" href="/{{ roompage }}/{{ b }}">{{ b }}</a>
+				{% endfor %}
+			</td>
+		</tr>
+	{% endfor %}
+</table>
 {% endblock %}
