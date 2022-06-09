@@ -1,5 +1,3 @@
-{% extends "base.html" %} {% block main %}
-{% for b in buildings %}
-	<a href="/{{ roompage }}/{{ b }}">{{ b }}</a>
-{% endfor %}
-{% endblock %}
+{% extends "base.html" %} {% block main %} {% for b in buildings %}
+<a href="/{{ roompage }}/{{ b }}">{{ b }}</a>
+{% endfor %} {% endblock %}
