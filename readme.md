@@ -59,6 +59,16 @@ PostgreSQL을 시스템에 깔고
 ./runwithpg
 ```
 
+## 그물(네트워크)에 열기
+
+`run`의 마지막 줄을 바꾸면 된다.
+
+`$PYTHON_COMMAND -m flask run --host 0.0.0.0`
+
+`$PYTHON_COMMAND -m gunicorn -b 0.0.0.0 app:app`
+
+들들
+
 
 ## 폴더 풀이
 - db: 데이터베이스
