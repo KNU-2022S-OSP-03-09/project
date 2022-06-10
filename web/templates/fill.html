@@ -1,7 +1,11 @@
-{% extends "base.html" %} {% block main %} {% if error is defined %}
-<h2>{{ error }}</h2>
+{% extends "base.html" %} {% block main %}
+{% if error is defined %}
+	<h2 class="centered">{{ error }}</h2>
 {% else %}
-<h2 align="center">{{ name }} 님 예약에 성공했습니다!</h2>
-<h3 align="center">예약시간을 준수해 주시고 강의실을 깨끗하게 사용해주세요</h3>
-<a align="center" href="/">홈으로 돌아가기</a>
-{% endif %} {% endblock %}
+	<div class="centered">
+		<h2>{{ name }} 님 예약에 성공했습니다!</h2>
+		<h3>예약시간을 지켜 주시고 강의실을 깨끗하게 써주세요</h3>
+		<a href="/">홈으로 돌아가기</a>
+	</div>
+{% endif %}
+{% endblock %}

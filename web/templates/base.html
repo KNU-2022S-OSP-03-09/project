@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html>
-  <head>
-	<style>
-		@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-		p,h1,h2,h3{font-size:1;
-		font-family: 'Jua', sans-serif;}
-	</style>
-    <p align="center">
-      <img src="/static/logo.png" width="100px" align="middle">
-      <h1 align="center">어 디 비 나</h1>
-	  <p align="center">원하는 강의실에서 공부하세요!</p>
-	</p>
-    
-    <hr size="5" width="3000px" color="red" />
-    <title>어 디 비 나</title>
-    <link rel="stylesheet" type="text/css" href="/static/global.css" />
-  </head>
-  <body>
-    <main>{% block main %}{% endblock %}</main>
-  </body>
+	<head>
+		<meta charset="utf-8">
+		<title>어 디 비 나</title>
+		<link rel="stylesheet" type="text/css" href="/static/global.css">
+	</head>
+	<body>
+		<header>
+			<div class="centered jua">
+				<img src="/static/logo.png" width="100px">
+				<h1>어 디 비 나</h1>
+				바라는 강의실에서 공부하세요!
+			</div>
+			<hr class="divider">
+		</header>
+		<main>{% block main %}{% endblock %}</main>
+	</body>
 </html>

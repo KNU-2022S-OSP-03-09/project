@@ -1,25 +1,25 @@
 {% extends "base.html" %} {% block main %}
-<p font-size="1">
-  사용방법<br />
-  1.원하는 건물과 강의실을 선택합니다.<br />2.원하는 시간대를 체크하고 학번과
-  이름을 입력합니다.<br />
-  3.예약하기 버튼을 누르면 예약이 완료됩니다.<br />
-  <font size="5" color="red">
-    주의! 같은 요일의 시간대만 예약할 수 있습니다
-  </font>
+<p class="jua">
+	사용방법
+	<br>
+	1.바라는 건물과 강의실을 고릅니다.
+	<br>
+	2.바라는 시간대를 체크하고 학번과 이름을 입력합니다.
+	<br>
+	3.예약하기 단추를 누르면 예약됩니다.
+	<br>
+	<span class="warning">주의! 같은 요일의 시간대만 예약할 수 있습니다</span>
 </p>
-
 <table>
-  {% for d in depts %}
-  <tr>
-    <td>{{ d[0] }}</td>
-
-    <td class="blockgroup">
-      {% for b in d[1] %}
-      <a class="building" href="/{{ roompage }}/{{ b }}">{{ b }}</a>
-      {% endfor %}
-    </td>
-  </tr>
-  {% endfor %}
+	{% for d in depts %}
+		<tr>
+			<td>{{ d[0] }}</td>
+			<td class="blockgroup">
+				{% for b in d[1] %}
+					<a class="building" href="/{{ roompage }}/{{ b }}">{{ b }}</a>
+				{% endfor %}
+			</td>
+		</tr>
+	{% endfor %}
 </table>
 {% endblock %}
