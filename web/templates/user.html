@@ -1,17 +1,6 @@
 {% extends "base.html" %} {% block main %}
-<h1>{{ building }} {{ room }}</h1>
-<%@ page contentType="text/html; charset=utf-8" %>
-<%
-request.setCharacterEncoding("utf-8");
-%>
-<html>
-	<head>
-		<title>예약 정보 확인</title>
-	</head>
-	<body>
-		<b>학번</b> : <%= request.getParameter("studentnum") %>
-		<br>
-		<b>이름</b> : <%= request.getParameter("name")%>
-		<br>
-	</body>
-</html>
+<h1>{{ studentnum }} {{ name }}의 예약</h1>
+{% for u in uses %}
+	{{ u }}
+{% endfor %}
+{% endblock %}

@@ -175,6 +175,15 @@ def checkerrors(stnum, checkdict):
 		last = t
 	return None
 
+@app.route("/user/<studentnum>")
+def user(studentnum):
+	name = database.queryusername(int(studentnum))
+	if len(name) <= 0:
+		return flask.render_template("error.html", error=f"학번 {studentnum}(으)로 예약한 적이 없습니다")
+
+	uses = database.queryusesbyuser(studentnum)
+	return flask.render_template("user.html", studentnum=studentnum, name=name, uses=uses)
+
 @functools.lru_cache(maxsize=None)
 def calchue(p):
 	return (1 - min(p / ROOM_COLOR_CAP, 1) ** (1 / 3)) * 120

@@ -86,6 +86,17 @@ def queryuses(building, room, startdate):
 		result = conn.execute(command, b=building.name, r=room.name, d=DBP["datew"][DBMS](startdate))
 		return [Use(u[1], startdate, startdate, [Time(DBP["timer"][DBMS](u[2]), DBP["timer"][DBMS](u[3]), "날")], u[0]) for u in result]
 
+def queryusesbyuser(studentnum):
+	command = text("SELECT name, size, starttime, endtime, startdate FROM uses WHERE usernum = :sn;")
+	with engine.begin() as conn:
+		result = conn.execute(command, sn=studentnum)
+		return [Use(u[1], DBP["dater"][DBMS](u[4]), DBP["dater"][DBMS](u[4]), [Time(DBP["timer"][DBMS](u[2]), DBP["timer"][DBMS](u[3]), "날")], u[0]) for u in result]
+
+def queryusername(studentnum):
+	command = text("SELECT name FROM users WHERE studentnum = :sn;")
+	with engine.begin() as conn:
+		return list(conn.execute(command, sn=studentnum))
+
 def clearuses(beforedate):
 	command = text("DELETE FROM uses WHERE startdate < :bd")
 	with engine.begin() as conn:
