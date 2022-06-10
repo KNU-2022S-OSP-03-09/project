@@ -4,7 +4,6 @@ if [ -f "venv/bin/python3" ]; then PYTHON_COMMAND="venv/bin/python3"; else PYTHO
 
 export EDBN_DBMS_CHOICE="1"
 
-sudo apt install postgresql
 initdb -D "./db"
 sed -i "/unix_socket_directories =/c\unix_socket_directories = ''" db/postgresql.conf
 createdb -h localhost edbn
