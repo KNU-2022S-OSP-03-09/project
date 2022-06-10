@@ -69,8 +69,25 @@ PostgreSQL을 시스템에 깔고
 
 들들
 
+## 걸림풀이(troubleshooting)
+
+`./setup`에서
+
+```
+It appears you are missing some prerequisite to build the package from source.
+
+You may install a binary package by installing 'psycopg2-binary' from PyPI.
+If you want to install psycopg2 from source, please install the packages
+required for the build and try again.
+```
+
+라고 뜨면
+
+- libpq를 깔거나(우분투: `sudo apt install libpq-dev`)
+- requirements.txt에서 `psycopg2` 줄을 지우고 PostgreSQL을 쓰지 않으면 된다.
 
 ## 폴더 풀이
+
 - db: 데이터베이스
 - raw: lecture.json
 - tools: geckodriver, firefox/firefox
